@@ -1,5 +1,8 @@
 package queue.qpack;
 
+import queue.QueueEmptyException;
+import queue.QueueFullException;
+
 // Класс, реализующий очередь фиксированного размера
 // для хранения символов
 public class FixedQueue implements ICharQ {
@@ -13,19 +16,18 @@ public class FixedQueue implements ICharQ {
     }
 
     // Помещение символа в очередь
-    public void put(char ch) {
-        if (putLoc == queue.length) {
-            System.out.println(" - Очередь заполнена");
-        }
+    public void put(char ch) throws QueueFullException {
+        if (putLoc == queue.length)
+            throw new QueueFullException(queue.length);
+
         queue[putLoc++] = ch;
     }
 
     // Извлечение символа из очереди
-    public char get() {
-        if (getLoc == putLoc) {
-            System.out.println(" - Очередь пуста");
-            return (char) 0;
-        }
+    public char get() throws QueueEmptyException {
+        if (getLoc == putLoc)
+            throw new QueueEmptyException();
+
         return queue[getLoc++];
     }
 }
